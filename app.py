@@ -103,7 +103,7 @@ if btn_evaluar and not st.session_state.respondido and not st.session_state.jueg
 
     if respuesta == respuesta_correcta:
 
-        st.session_state.puntos += 8
+        st.session_state.puntos += 10
         st.session_state.mensaje = "correcto"
         st.session_state.respondido = True
 
