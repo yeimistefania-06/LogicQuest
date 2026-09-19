@@ -124,20 +124,36 @@ if btn_evaluar and not st.session_state.respondido and not st.session_state.jueg
 
     if respuesta == respuesta_correcta:
 
+        # Respuesta correcta
         st.session_state.puntos += 10
         st.session_state.mensaje = "correcto"
         st.session_state.respondido = True
 
-    else:
-
-        st.session_state.vidas -= 1
-        if st.session_state.vidas == 0:
-            st.session_state.juego_terminado = True
-        st.session_state.mensaje = "incorrecto"
-        st.session_state.respondido = True
-        
+        # Si completa los 10 ejercicios, termina el juego
         if st.session_state.ejercicio_actual == 10:
             st.session_state.juego_terminado = True
+
+    else:
+
+        # Respuesta incorrecta
+        st.session_state.vidas -= 1
+        st.session_state.mensaje = "incorrecto"
+
+        # Si pierde las 3 vidas, termina el juego
+        if st.session_state.vidas == 0:
+
+            st.session_state.juego_terminado = True
+            st.session_state.respondido = True
+
+        else:
+
+            # Genera otro ejercicio
+            # pero mantiene el mismo número de ejercicio
+            st.session_state.ejercicio = generar_ejercicio()
+
+            st.session_state.respondido = False
+
+            st.rerun()
 # COLUMNA DERECHA
 
 with columna2:
