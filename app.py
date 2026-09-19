@@ -47,6 +47,9 @@ if "puntos" not in st.session_state:
 if "vidas" not in st.session_state:
     st.session_state.vidas = 3
 
+if "ejercicio_actual" not in st.session_state:
+    st.session_state.ejercicio_actual = 1
+
 if "juego_terminado" not in st.session_state:
     st.session_state.juego_terminado = False
 
@@ -55,7 +58,9 @@ if "respondido" not in st.session_state:
 
 if "mensaje" not in st.session_state:
     st.session_state.mensaje = ""
-
+    
+if "juego_terminado" not in st.session_state:
+    st.session_state.juego_terminado = False
 
 P, Q, R, expresion, resultado = st.session_state.ejercicio
 
@@ -66,11 +71,27 @@ st.subheader("Desafío de Tablas de Verdad")
 
 # COLUMNAS
 
+if st.session_state.juego_terminado:
+
+    st.success("🏆 ¡Juego terminado!")
+
+    st.write(
+        f"### Puntuación final: {st.session_state.puntos} puntos"
+    )
+
+    st.write(
+        f"Completaste los 10 ejercicios."
+    )
+
 columna1, columna2 = st.columns([2, 1])
 
 # COLUMNA IZQUIERDA
 
 with columna1:
+    
+    st.write(
+        f"**Ejercicio {st.session_state.ejercicio_actual} de 10**"
+    )
 
     st.write("### 🎯 Ejercicio")
 
@@ -114,7 +135,9 @@ if btn_evaluar and not st.session_state.respondido and not st.session_state.jueg
             st.session_state.juego_terminado = True
         st.session_state.mensaje = "incorrecto"
         st.session_state.respondido = True
-
+        
+        if st.session_state.ejercicio_actual == 10:
+            st.session_state.juego_terminado = True
 # COLUMNA DERECHA
 
 with columna2:
@@ -137,7 +160,11 @@ with columna2:
         st.write("**" + respuesta_correcta + "**")
 
     if not st.session_state.juego_terminado:
+        if st.session_state.ejercicio_actual < 10:
         btn_siguiente = st.button("➡️ Siguiente ejercicio")
+    else:
+        btn_siguiente = False
+        
     else:
         btn_siguiente = False
 
@@ -153,10 +180,20 @@ if st.session_state.juego_terminado:
 
 if btn_siguiente:
 
-    st.session_state.ejercicio = generar_ejercicio()
+    if st.session_state.ejercicio_actual < 10:
 
-    st.session_state.respondido = False
+        st.session_state.ejercicio_actual += 1
 
-    st.session_state.mensaje = ""
+        st.session_state.ejercicio = generar_ejercicio()
 
-    st.rerun()
+        st.session_state.respondido = False
+
+        st.session_state.mensaje = ""
+
+        st.rerun()
+
+    else:
+
+        st.session_state.juego_terminado = True
+
+        st.rerun()
