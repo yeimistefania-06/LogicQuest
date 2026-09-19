@@ -194,7 +194,7 @@ if st.session_state.juego_terminado:
     
 # SIGUIENTE EJERCICIO
 
-if btn_siguiente:
+if btn_siguiente and st.session_state.respondido:
 
     if st.session_state.ejercicio_actual < 10:
 
