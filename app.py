@@ -161,9 +161,9 @@ with columna2:
 
     if not st.session_state.juego_terminado:
         if st.session_state.ejercicio_actual < 10:
-        btn_siguiente = st.button("➡️ Siguiente ejercicio")
-    else:
-        btn_siguiente = False
+            btn_siguiente = st.button("➡️ Siguiente ejercicio")
+        else:
+            btn_siguiente = False
         
     else:
         btn_siguiente = False
